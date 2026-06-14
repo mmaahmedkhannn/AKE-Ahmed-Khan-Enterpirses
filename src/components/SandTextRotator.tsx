@@ -56,7 +56,7 @@ const ThanosParticles = ({ charIndex }: { charIndex: number }) => {
   );
 };
 
-const characterVariants = {
+const characterVariants: any = {
   initial: {
     opacity: 0,
     y: -10,
