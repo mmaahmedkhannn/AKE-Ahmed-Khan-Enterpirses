@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors - Brutalist Dark Theme */
+  --color-primary: #e9c349;
+  --color-on-primary: #050914;
+  --color-primary-container: #5c4a00;
+  --color-on-primary-container: #ffe27a;
+
+  --color-secondary: #e9c349;
+  --color-on-secondary: #050914;
+  --color-secondary-container: #5c4a00;
+  --color-on-secondary-container: #ffe27a;
+
+  --color-surface: #050914;
+  --color-on-surface: #ffffff;
+  --color-surface-variant: #0a1122;
+  --color-on-surface-variant: #a0a6b0;
+  
+  --color-surface-container-lowest: #020408;
+  --color-surface-container-low: #040710;
+  --color-surface-container: #080d1a;
+  --color-surface-container-high: #0a1124;
+  --color-surface-container-highest: #0d152a;
+  --color-surface-bright: #0a1124;
+  --color-surface-dim: #040710;
+  --color-surface-tint: #e9c349;
+
+  --color-background: #050914;
+  --color-on-background: #ffffff;
+
+  --color-outline: #2a3441;
+  --color-outline-variant: #1a2230;
+
+  --color-inverse-primary: #e9c349;
+  --color-inverse-surface: #f4f6f8;
+  --color-inverse-on-surface: #050914;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #ffffff;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  /* Additional mappings */
+  --color-tertiary: #ffffff;
+  --color-on-tertiary: #050914;
+  --color-tertiary-container: #1f2937;
+  --color-on-tertiary-container: #ffffff;
+
+  /* Spacing */
+  --spacing-margin: 64px;
+  --spacing-gutter: 24px;
+  --spacing-hairline: 1px;
+  --spacing-grid_dot_gap: 24px;
+  --spacing-grid_dot_size: 2px;
+  --spacing-unit: 8px;
+
+  /* Fonts - Heavy Brutalist Typography */
+  --font-body-lg: "Inter", sans-serif;
+  --font-label-caps: "Inter", sans-serif;
+  --font-mono-data: "Inter", sans-serif;
+  --font-body-md: "Inter", sans-serif;
+  --font-h3: "Inter", sans-serif;
+  --font-h1: "Inter", sans-serif;
+  --font-h2: "Inter", sans-serif;
+
+  --font-heading: "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Font Sizes & Weights */
+  --text-body-lg: 20px;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 1.0;
+  --text-label-caps--letter-spacing: 0.1em;
+  --text-label-caps--font-weight: 600;
+
+  --text-mono-data: 14px;
+  --text-mono-data--line-height: 1.4;
+  --text-mono-data--letter-spacing: 0.05em;
+  --text-mono-data--font-weight: 500;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+  --text-body-md--font-weight: 400;
+
+  --text-h3: 32px;
+  --text-h3--line-height: 1.1;
+  --text-h3--letter-spacing: -0.03em;
+  --text-h3--font-weight: 900;
+
+  --text-h1: 80px;
+  --text-h1--line-height: 0.95;
+  --text-h1--letter-spacing: -0.05em;
+  --text-h1--font-weight: 900;
+
+  --text-h2: 56px;
+  --text-h2--line-height: 1.0;
+  --text-h2--letter-spacing: -0.04em;
+  --text-h2--font-weight: 900;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      rgba(255, 255, 255, 0.025) 10px,
+      rgba(255, 255, 255, 0.025) 11px
+    );
+  }
+}
+
+/* ── Custom Utilities ── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .blueprint-grid {
+    background-size: 24px 24px;
+  }
+  .tech-grid-bg {
+    background-size: 24px 24px;
+  }
+  .grid-bg {
+    background-size: 24px 24px;
+  }
+  .structural-border {
+    border: 1px solid var(--color-outline-variant);
+  }
+  .solid-offset {
+    box-shadow: 4px 4px 0px 0px var(--color-primary);
+  }
+  
+  /* Required for Material Symbols Outlined */
+  .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+  }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-container-highest);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-outline);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ── Smooth Global Transitions ── */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Focus visible ring */
+:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Smooth image loading */
+img {
+  transition: opacity 0.4s ease;
+}
+
+img[loading="lazy"] {
+  opacity: 0;
+}
+
+img[loading="lazy"].loaded,
+img[loading="lazy"]:not([src=""]) {
+  opacity: 1;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+}
+
+/* Link underline animation */
+a {
+  position: relative;
+}
+
+/* Smooth transitions on interactive elements */
+button, a, input, textarea, select {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Animated gradient for decorative borders */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Pulse glow for CTAs */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(115, 92, 0, 0.2); }
+  50% { box-shadow: 0 0 20px 4px rgba(115, 92, 0, 0.1); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
