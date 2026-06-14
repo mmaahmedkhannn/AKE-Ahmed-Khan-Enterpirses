@@ -6,6 +6,7 @@ import AnimatedText from '../components/AnimatedText';
 import AnimatedCounter from '../components/AnimatedCounter';
 import ScrollReveal from '../components/ScrollReveal';
 import TextRevealOnScroll from '../components/TextRevealOnScroll';
+import SandTextRotator from '../components/SandTextRotator';
 import {
   fadeLeft,
   fadeRight,
@@ -82,8 +83,8 @@ const Home = () => {
             className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-primary via-secondary to-transparent"
           />
 
-          <div className="flex flex-wrap gap-x-3 gap-y-1 mb-8">
-            {"Engineered for Absolute Precision.".split(" ").map((word, i) => (
+          <div className="flex flex-wrap gap-x-3 gap-y-1 mb-8 items-center">
+            {["Engineered", "for", "Absolute"].map((word, i) => (
               <div key={i} className="overflow-hidden inline-block pt-2 pb-1">
                 <motion.span
                   initial={{ y: "110%", rotate: 8, opacity: 0 }}
@@ -95,6 +96,14 @@ const Home = () => {
                 </motion.span>
               </div>
             ))}
+            <div className="inline-block pt-2 pb-1">
+              <SandTextRotator
+                words={["Precision.", "Excellence.", "Innovation.", "Integrity."]}
+                interval={3500}
+                delay={0.96}
+                className="font-h1 text-4xl md:text-6xl lg:text-[76px] leading-[1.05] text-secondary font-black tracking-tight"
+              />
+            </div>
           </div>
 
           <motion.p
