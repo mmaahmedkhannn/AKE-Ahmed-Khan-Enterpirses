@@ -55,7 +55,7 @@ const ArchitecturalModel = () => {
       <group ref={groupRef} rotation={[0.1, Math.PI / 4, 0]}>
         
         {/* Magical floating construction dust */}
-        <Sparkles count={150} scale={8} size={2} speed={0.4} opacity={0.4} color="#e9c349" />
+        <Sparkles count={50} scale={8} size={2} speed={0.4} opacity={0.4} color="#e9c349" />
 
         {/* Central Highrise Core */}
         <mesh ref={coreRef} position={[0, -0.55, 0]}>
@@ -128,12 +128,16 @@ const SplashScreen = ({ isVisible }: SplashScreenProps) => {
             animate={{ opacity: 0.7 }}
             transition={{ duration: 2, ease: 'easeOut', delay: 0.2 }}
             exit={{
-              scale: 2.5,
+              scale: 1.15,
               opacity: 0,
               transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
             }}
           >
-            <Canvas camera={{ position: [5, 4, 5], fov: 40 }}>
+            <Canvas 
+              camera={{ position: [5, 4, 5], fov: 40 }}
+              dpr={1}
+              gl={{ powerPreference: 'high-performance', antialias: false }}
+            >
               <ambientLight intensity={1} />
               <ArchitecturalModel />
             </Canvas>
@@ -192,9 +196,8 @@ const SplashScreen = ({ isVisible }: SplashScreenProps) => {
             <motion.div 
               className="flex items-center gap-1"
               exit={{
-                scale: 18,
+                scale: 4,
                 opacity: 0,
-                filter: 'blur(25px)',
                 transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
               }}
             >
@@ -203,12 +206,11 @@ const SplashScreen = ({ isVisible }: SplashScreenProps) => {
                   key={letter}
                   className="text-white font-black text-7xl md:text-9xl tracking-tighter leading-none drop-shadow-2xl"
                   style={{ fontFamily: "'Work Sans', sans-serif" }}
-                  initial={{ opacity: 0, y: 60, rotateX: -90, filter: 'blur(12px)' }}
+                  initial={{ opacity: 0, y: 60, rotateX: -90 }}
                   animate={{
                     opacity: 1,
                     y: 0,
                     rotateX: 0,
-                    filter: 'blur(0px)',
                   }}
                   transition={{
                     delay: 0.15 + i * 0.15,
