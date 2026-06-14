@@ -137,7 +137,8 @@ const Navbar = () => {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden relative z-50 text-white hover:text-[#e9c349] transition-colors"
+          className="md:hidden relative z-50 text-white hover:text-[#e9c349] transition-colors min-h-[48px] min-w-[48px] flex items-center justify-center rounded-md"
+          aria-label="Toggle Menu"
         >
           <AnimatePresence mode="wait">
             {isOpen ? (

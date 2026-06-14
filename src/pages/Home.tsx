@@ -45,9 +45,9 @@ const Home = () => {
           </div>
         </motion.div>
 
-        {/* Floating grid dots decoration */}
+        {/* Floating grid dots decoration (hidden on mobile to reduce clutter) */}
         <motion.div
-          className="absolute top-10 right-10 w-32 h-32 opacity-20 z-[1]"
+          className="hidden md:block absolute top-10 right-10 w-32 h-32 opacity-20 z-[1]"
           animate={{ y: [0, -10, 0], rotate: [0, 3, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         >

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SandTextRotatorProps {
@@ -8,41 +8,76 @@ interface SandTextRotatorProps {
   delay?: number;
 }
 
+const colors = ['#FFD700', '#DAA520', '#F8E87B', '#B8860B', '#E6C200'];
+
+const ThanosParticles = ({ charIndex }: { charIndex: number }) => {
+  // Generate random particles for this character
+  const particles = useMemo(() => {
+    return Array.from({ length: 45 }).map(() => {
+      // Dust dropping downwards (like falling sand)
+      const angle = (Math.random() * 120 + 30) * (Math.PI / 180); // 30 to 150 degrees (downwards)
+      const distance = Math.random() * 80 + 20; // Fall distance
+      const x = Math.cos(angle) * distance * 0.6; // Slight horizontal spread
+      const y = Math.sin(angle) * distance; // Positive Y is downwards
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      return { 
+        x, 
+        y, 
+        color,
+        duration: 0.5 + Math.random() * 0.5, 
+        delay: Math.random() * 0.2 + (charIndex * 0.015) 
+      };
+    });
+  }, [charIndex]);
+
+  return (
+    <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-50">
+      {particles.map((p, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-[2px] h-[2px] rounded-full"
+          style={{ backgroundColor: p.color, willChange: 'transform, opacity' }}
+          initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
+          exit={{ 
+            opacity: [0, 1, 0],
+            scale: [0, Math.random() * 1.5 + 0.5, 0],
+            x: p.x, 
+            y: p.y, 
+            transition: {
+              duration: p.duration,
+              ease: "easeIn",
+              delay: p.delay
+            }
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const characterVariants = {
   initial: {
-    y: -30,
     opacity: 0,
-    rotate: -15,
-    scale: 0.7,
+    y: -10,
   },
   animate: ({ index, delay }: { index: number; delay: number }) => ({
-    y: 0,
     opacity: 1,
-    rotate: 0,
-    scale: 1,
+    y: 0,
     transition: {
-      type: 'spring' as const,
-      stiffness: 140,
-      damping: 14,
-      delay: delay + index * 0.045,
+      duration: 0.4,
+      delay: delay + index * 0.03,
     },
   }),
-  exit: ({ index }: { index: number }) => {
-    const randomAngle = ((index * 7) % 50) - 25; // between -25 and 25 deg
-    const randomDrift = ((index * 13) % 40) - 20; // between -20 and 20px
-    return {
-      y: 50,
-      opacity: 0,
-      rotate: randomAngle,
-      x: randomDrift,
-      scale: 0.6,
-      transition: {
-        duration: 0.5,
-        ease: [0.36, 0, 0.66, -0.56] as [number, number, number, number], // Snappy falling acceleration
-        delay: index * 0.02,
-      },
-    };
-  },
+  exit: ({ index }: { index: number }) => ({
+    y: 15,
+    opacity: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeIn",
+      delay: index * 0.02,
+    },
+  }),
 };
 
 const SandTextRotator = ({
@@ -83,21 +118,27 @@ const SandTextRotator = ({
       <AnimatePresence mode="popLayout">
         <motion.span
           key={index}
-          className={`inline-flex ${className}`}
+          className={`inline-flex relative ${className}`}
           style={{ display: 'inline-flex' }}
         >
           {characters.map((char, i) => (
             <motion.span
               key={`${char}-${i}`}
-              custom={{ index: i, delay: currentDelay }}
-              variants={characterVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="inline-block origin-center"
+              className="inline-block relative origin-center"
               style={{ display: 'inline-block', whiteSpace: 'pre' }}
             >
-              {char}
+              <motion.span
+                custom={{ index: i, delay: currentDelay }}
+                variants={characterVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                style={{ display: 'inline-block', whiteSpace: 'pre' }}
+              >
+                {char}
+              </motion.span>
+              {/* Thanos Particles rendered for each character */}
+              <ThanosParticles charIndex={i} />
             </motion.span>
           ))}
         </motion.span>

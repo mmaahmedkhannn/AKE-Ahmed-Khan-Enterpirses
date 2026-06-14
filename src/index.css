@@ -67,8 +67,8 @@
   --font-heading: "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
 
-  /* Font Sizes & Weights */
-  --text-body-lg: 20px;
+  /* Font Sizes & Weights (Fluid with Clamp) */
+  --text-body-lg: clamp(1rem, 1.5vw + 0.5rem, 1.25rem);
   --text-body-lg--line-height: 1.6;
   --text-body-lg--font-weight: 400;
 
@@ -77,26 +77,26 @@
   --text-label-caps--letter-spacing: 0.1em;
   --text-label-caps--font-weight: 600;
 
-  --text-mono-data: 14px;
+  --text-mono-data: clamp(0.75rem, 1vw + 0.5rem, 0.875rem);
   --text-mono-data--line-height: 1.4;
   --text-mono-data--letter-spacing: 0.05em;
   --text-mono-data--font-weight: 500;
 
-  --text-body-md: 16px;
+  --text-body-md: clamp(0.875rem, 1vw + 0.5rem, 1rem);
   --text-body-md--line-height: 1.6;
   --text-body-md--font-weight: 400;
 
-  --text-h3: 32px;
+  --text-h3: clamp(1.5rem, 3vw + 0.5rem, 2rem);
   --text-h3--line-height: 1.1;
   --text-h3--letter-spacing: -0.03em;
   --text-h3--font-weight: 900;
 
-  --text-h1: 80px;
+  --text-h1: clamp(2.5rem, 5vw + 1rem, 5rem);
   --text-h1--line-height: 0.95;
   --text-h1--letter-spacing: -0.05em;
   --text-h1--font-weight: 900;
 
-  --text-h2: 56px;
+  --text-h2: clamp(2rem, 4vw + 1rem, 3.5rem);
   --text-h2--line-height: 1.0;
   --text-h2--letter-spacing: -0.04em;
   --text-h2--font-weight: 900;
