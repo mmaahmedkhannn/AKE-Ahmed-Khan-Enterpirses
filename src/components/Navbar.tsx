@@ -62,7 +62,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex space-x-10 items-center">
+        <div className="hidden lg:flex space-x-10 items-center">
           {links.map((link, i) => {
             const active = isActive(link.path);
             return (
@@ -116,7 +116,7 @@ const Navbar = () => {
 
         {/* Desktop CTA */}
         <motion.div
-          className="hidden md:block"
+          className="hidden lg:block"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.8 }}
@@ -137,7 +137,7 @@ const Navbar = () => {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden relative z-50 text-white hover:text-[#e9c349] transition-colors min-h-[48px] min-w-[48px] flex items-center justify-center rounded-md"
+          className="lg:hidden relative z-50 text-white hover:text-[#e9c349] transition-colors min-h-[48px] min-w-[48px] flex items-center justify-center rounded-md"
           aria-label="Toggle Menu"
         >
           <AnimatePresence mode="wait">

@@ -10,9 +10,9 @@ const exitVariants = {
   exit: (i: number) => ({
     height: "100%",
     transition: {
-      duration: 0.6,
+      duration: 0.5,
       ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-      delay: i * 0.08, // Stagger from left to right
+      delay: i * 0.05, // Stagger from left to right
     }
   })
 };
@@ -23,9 +23,9 @@ const enterVariants = {
   animate: (i: number) => ({
     height: "0%",
     transition: {
-      duration: 0.6,
+      duration: 0.5,
       ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-      delay: i * 0.08, // Stagger from left to right
+      delay: i * 0.05, // Stagger from left to right
     }
   }),
   exit: { bottom: 0, height: "0%", transition: { duration: 0 } }
@@ -56,7 +56,7 @@ const PageTransition = ({ children }: { children: ReactNode }) => {
             animate="animate"
             exit="exit"
             className="bg-[#050914] relative border-r border-[#e9c349]/10"
-            style={{ width: `${100 / COLUMNS}%` }}
+            style={{ width: `${100 / COLUMNS}%`, willChange: 'height, transform' }}
           />
         ))}
       </div>
@@ -72,7 +72,7 @@ const PageTransition = ({ children }: { children: ReactNode }) => {
             animate="animate"
             exit="exit"
             className="bg-[#050914] relative border-r border-[#e9c349]/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-            style={{ width: `${100 / COLUMNS}%` }}
+            style={{ width: `${100 / COLUMNS}%`, willChange: 'height, transform' }}
           />
         ))}
       </div>

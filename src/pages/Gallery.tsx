@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { projects } from '../data/projects';
 import PageTransition from '../components/PageTransition';
 
@@ -27,10 +27,26 @@ const Gallery = () => {
     offset: ['start start', 'end end']
   });
 
-  const rotation = useTransform(scrollYProgress, [0, 1], [0, -360]);
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 20 });
+  const rotation = useTransform(smoothProgress, [0, 1], [0, -360]);
 
-  // The secret to the Trionn look: A massive radius!
-  const radius = 2200; 
+  // The secret to the Trionn look: A massive radius! (Dynamic for mobile)
+  const [radius, setRadius] = useState(2200);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setRadius(1000);
+      } else if (window.innerWidth < 1024) {
+        setRadius(1500);
+      } else {
+        setRadius(2200);
+      }
+    };
+    handleResize(); // Initial call
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <PageTransition>
@@ -80,7 +96,7 @@ const Gallery = () => {
                     <motion.div
                       key={i}
                       // Massive cards to fit the huge radius
-                      className="absolute w-[300px] md:w-[500px] lg:w-[600px] h-[380px] md:h-[650px] lg:h-[750px] cursor-pointer group"
+                      className="absolute w-[260px] md:w-[500px] lg:w-[600px] h-[340px] md:h-[650px] lg:h-[750px] cursor-pointer group"
                       style={{
                         transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
                         transformStyle: 'preserve-3d'

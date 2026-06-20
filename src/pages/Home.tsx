@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef } from 'react';
 import PageTransition from '../components/PageTransition';
 import AnimatedText from '../components/AnimatedText';
@@ -19,9 +19,10 @@ const Home = () => {
     target: heroRef,
     offset: ['start start', 'end start'],
   });
-  const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const heroImageY = useTransform(smoothProgress, [0, 1], ['0%', '25%']);
+  const heroOpacity = useTransform(smoothProgress, [0, 0.7], [1, 0]);
+  const heroScale = useTransform(smoothProgress, [0, 1], [1, 1.15]);
 
   return (
     <PageTransition>
@@ -36,12 +37,16 @@ const Home = () => {
           style={{ y: heroImageY, opacity: heroOpacity }}
         >
           <div className="w-full h-full relative border border-outline-variant overflow-hidden bg-[#0d1b2a]">
-            <motion.img
-              style={{ scale: heroScale }}
-              src="/hero-blueprint.png"
-              alt="Architectural blueprint wireframe"
-              className="w-full h-full object-cover object-center opacity-90"
-            />
+            <motion.div style={{ scale: heroScale }} className="absolute inset-0 w-full h-full">
+              <video
+                src="/drive-video.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+            </motion.div>
           </div>
         </motion.div>
 
@@ -90,7 +95,8 @@ const Home = () => {
                   initial={{ y: "110%", rotate: 8, opacity: 0 }}
                   animate={{ y: 0, rotate: 0, opacity: 1 }}
                   transition={{ duration: 0.9, delay: 0.6 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block font-h1 text-4xl md:text-6xl lg:text-[76px] leading-[1.05] text-white font-black tracking-tight"
+                  style={{ willChange: 'transform, opacity' }}
+                  className="inline-block font-h1 text-4xl sm:text-5xl md:text-6xl lg:text-[76px] leading-[1.05] text-white font-black tracking-tight"
                 >
                   {word}
                 </motion.span>
@@ -101,7 +107,7 @@ const Home = () => {
                 words={["Precision.", "Excellence.", "Innovation.", "Integrity."]}
                 interval={3500}
                 delay={0.96}
-                className="font-h1 text-4xl md:text-6xl lg:text-[76px] leading-[1.05] text-secondary font-black tracking-tight"
+                className="font-h1 text-4xl sm:text-5xl md:text-6xl lg:text-[76px] leading-[1.05] text-secondary font-black tracking-tight"
               />
             </div>
           </div>
@@ -119,26 +125,7 @@ const Home = () => {
           </motion.p>
 
           <div className="flex flex-wrap gap-4 md:gap-6">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.4, type: "spring", bounce: 0.4 }}
-              whileHover={{ scale: 1.04, y: -2 }} 
-              whileTap={{ scale: 0.97 }}
-            >
-              <Link
-                to="/contact"
-                className="font-label-caps text-label-caps bg-primary text-on-primary px-8 py-5 uppercase tracking-widest hover:bg-secondary hover:text-on-secondary transition-all w-full md:w-auto text-center inline-block relative overflow-hidden group shadow-lg"
-              >
-                <span className="relative z-10 font-bold">Initiate Partnership</span>
-                <motion.div
-                  className="absolute inset-0 bg-secondary"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '0%' }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                />
-              </Link>
-            </motion.div>
+
             <motion.div 
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -159,28 +146,7 @@ const Home = () => {
           </div>
         </motion.div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-        >
-          <span className="font-mono-data text-[10px] text-outline-variant uppercase tracking-widest">
-            Scroll to explore
-          </span>
-          <motion.div
-            className="w-5 h-8 border-2 border-outline-variant/50 rounded-full flex justify-center pt-1"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1 h-2 bg-secondary rounded-full"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </motion.div>
-        </motion.div>
+
       </section>
 
       {/* ═══════════════════ MASSIVE TYPOGRAPHY SCROLL REVEAL ═══════════════════ */}
@@ -217,17 +183,17 @@ const Home = () => {
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-12 gap-gutter"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-gutter"
         >
           {/* Large Feature Card */}
           <motion.div
             variants={fadeLeft}
             whileHover={{ y: -6 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="col-span-1 md:col-span-8 structural-border relative group overflow-hidden h-auto md:h-[600px] flex flex-col md:flex-row"
+            className="col-span-1 lg:col-span-8 structural-border relative group overflow-hidden h-auto lg:h-[600px] flex flex-col lg:flex-row"
           >
             {/* Left Side: Dark Architectural Gray */}
-            <div className="w-full md:w-1/2 h-full bg-[#0a1124] flex flex-col justify-center p-6 md:p-12 border-b md:border-b-0 md:border-r border-outline-variant">
+            <div className="w-full lg:w-1/2 h-full bg-[#0a1124] flex flex-col justify-center p-6 md:p-12 border-b lg:border-b-0 lg:border-r border-outline-variant">
               <motion.span
                 className="font-label-caps text-label-caps text-secondary mb-4 block"
                 initial={{ x: -20, opacity: 0 }}
@@ -248,7 +214,7 @@ const Home = () => {
             </div>
 
             {/* Right Side: Golden Frame */}
-            <div className="w-full md:w-1/2 h-[400px] md:h-full bg-primary p-6 md:p-10 relative flex items-center justify-center">
+            <div className="w-full lg:w-1/2 h-[400px] lg:h-full bg-primary p-6 md:p-10 relative flex items-center justify-center">
               <div className="w-full h-full structural-border border-outline-variant/30 overflow-hidden relative shadow-2xl">
                 <div className="absolute inset-0 bg-primary/20 z-10 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-0" />
                 <motion.img
@@ -265,7 +231,7 @@ const Home = () => {
           {/* Stats/Data Card */}
           <motion.div
             variants={fadeRight}
-            className="col-span-1 md:col-span-4 flex flex-col gap-gutter"
+            className="col-span-1 lg:col-span-4 flex flex-col gap-gutter"
           >
             <motion.div
               whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,36,64,0.2)' }}

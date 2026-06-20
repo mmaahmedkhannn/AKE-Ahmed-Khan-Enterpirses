@@ -59,10 +59,7 @@ const Footer = () => {
           {/* Copyright & Interactive Hint */}
           <div className="flex flex-col gap-6 text-[10px] md:text-xs font-mono-data text-white/50 tracking-widest uppercase">
             <p>© AKE {new Date().getFullYear()}</p>
-            <p className="flex items-center gap-2 mb-4">
-              <span className="material-symbols-outlined text-[14px]">tune</span>
-              Sound On <span className="text-white/20 mx-2">|</span> Hover The Lines.
-            </p>
+
             
             {/* Realistic Master Ignition Switch */}
             <div className="flex items-center gap-4 mt-2">
@@ -90,7 +87,7 @@ const Footer = () => {
           </div>
 
           {/* Data Columns */}
-          <div className="flex flex-wrap md:flex-nowrap gap-12 md:gap-24 text-[10px] md:text-xs font-mono-data tracking-widest uppercase">
+          <div className="flex flex-wrap lg:flex-nowrap gap-12 lg:gap-24 text-[10px] md:text-xs font-mono-data tracking-widest uppercase">
             
             <div className="flex flex-col gap-4">
               <span className="text-white/30 mb-2">Business Enquiry</span>
@@ -132,7 +129,7 @@ const Footer = () => {
           height="100%" 
           viewBox="0 0 1000 400" 
           preserveAspectRatio="none"
-          className="absolute bottom-0 left-0"
+          className="absolute bottom-0 left-0 touch-none"
           onTouchStart={(e) => {
             const touch = e.touches[0];
             const rect = e.currentTarget.getBoundingClientRect();
