@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import type { ReactNode } from 'react';
 
 const COLUMNS = 5;
@@ -31,7 +31,7 @@ const enterVariants = {
   exit: { bottom: 0, height: "0%", transition: { duration: 0 } }
 };
 
-const letterExitVariants = {
+const letterExitVariants: Variants = {
   initial: { 
     opacity: 0, 
     y: 100, 
@@ -55,7 +55,7 @@ const letterExitVariants = {
   })
 };
 
-const letterEnterVariants = {
+const letterEnterVariants: Variants = {
   initial: { opacity: 1, y: 0, rotateX: 0, scale: 1, filter: 'blur(0px)' },
   animate: (i: number) => ({
     opacity: 0,
