@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
 
 interface TextRevealProps {
   text: string;
@@ -16,6 +16,8 @@ const TextRevealOnScroll = ({ text, className = "" }: TextRevealProps) => {
     offset: ['start 85%', 'end 40%']
   });
 
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
   const words = text.split(" ");
 
   return (
@@ -24,7 +26,7 @@ const TextRevealOnScroll = ({ text, className = "" }: TextRevealProps) => {
         const start = i / words.length;
         const end = start + (1 / words.length);
         return (
-          <Word key={i} progress={scrollYProgress} range={[start, end]}>
+          <Word key={i} progress={smoothProgress} range={[start, end]}>
             {word}
           </Word>
         );
@@ -35,16 +37,16 @@ const TextRevealOnScroll = ({ text, className = "" }: TextRevealProps) => {
 
 const Word = ({ children, progress, range }: { children: string, progress: MotionValue<number>, range: number[] }) => {
   // Maps the scroll progress to opacity. 
-  // When progress hits the start range, opacity is 0.1. At end range, opacity is 1.
-  const opacity = useTransform(progress, range, [0.1, 1]);
-  
-  // Optional: We also transform color slightly so it literally "glows" into place
-  const color = useTransform(progress, range, ['rgba(255,255,255,0)', 'rgba(255,255,255,1)']); 
+  // We only animate opacity to maintain 60fps buttery smoothness.
+  const opacity = useTransform(progress, range, [0, 1]);
   
   return (
-    <span className="relative mr-[0.25em] mt-[0.1em]">
+    <span className="relative mr-[0.25em] mt-[0.1em] inline-block">
       {/* The glowing foreground word */}
-      <motion.span style={{ opacity, color }} className="relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+      <motion.span 
+        style={{ opacity, willChange: 'opacity', textShadow: '0 0 15px rgba(255,255,255,0.4)' }} 
+        className="relative z-10 text-white"
+      >
         {children}
       </motion.span>
       

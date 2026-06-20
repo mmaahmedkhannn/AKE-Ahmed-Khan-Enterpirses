@@ -189,7 +189,7 @@ const SplashScreen = ({ isVisible }: SplashScreenProps) => {
               transition={{ delay: 0.3, duration: 0.6 }}
               exit={{ opacity: 0, y: 20, transition: { duration: 0.4 } }}
             >
-              Est. Pakistan
+              Established since 2018
             </motion.span>
 
             {/* AKE Letters wrapper handles the massive zoom exit */}

@@ -13,11 +13,13 @@ const colors = ['#FFD700', '#DAA520', '#F8E87B', '#B8860B', '#E6C200'];
 const ThanosParticles = ({ charIndex }: { charIndex: number }) => {
   // Generate random particles for this character
   const particles = useMemo(() => {
-    return Array.from({ length: 45 }).map(() => {
+    // Reduced from 45 to 12 to ensure buttery smooth 60fps animation
+    // 45 particles * 11 characters = 495 DOM nodes simultaneously animating, which caused severe stuttering.
+    return Array.from({ length: 12 }).map(() => {
       // Dust dropping downwards (like falling sand)
       const angle = (Math.random() * 120 + 30) * (Math.PI / 180); // 30 to 150 degrees (downwards)
-      const distance = Math.random() * 80 + 20; // Fall distance
-      const x = Math.cos(angle) * distance * 0.6; // Slight horizontal spread
+      const distance = Math.random() * 60 + 20; // Fall distance
+      const x = Math.cos(angle) * distance * 1.5; // Wider horizontal spread to compensate for fewer particles
       const y = Math.sin(angle) * distance; // Positive Y is downwards
       const color = colors[Math.floor(Math.random() * colors.length)];
       
@@ -25,8 +27,8 @@ const ThanosParticles = ({ charIndex }: { charIndex: number }) => {
         x, 
         y, 
         color,
-        duration: 0.5 + Math.random() * 0.5, 
-        delay: Math.random() * 0.2 + (charIndex * 0.015) 
+        duration: 0.4 + Math.random() * 0.4, 
+        delay: Math.random() * 0.15 + (charIndex * 0.015) 
       };
     });
   }, [charIndex]);
